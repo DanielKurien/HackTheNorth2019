@@ -1,0 +1,64 @@
+body{
+    font-family: 'Oswald',sans-serif;
+    background-color:black;
+    margin: 0px;
+    color:white;
+}
+#nav{
+  width:100%;
+
+}
+#logo{
+    font-size: 22px;
+    font-weight:bold;
+}
+
+
+
+
+#logo :hover{
+  background-color:white;
+  color:black;
+  border: 2px solid black;
+
+}
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+  }
+  
+  li {
+    float: left;
+    font-family: 'Oswald', sans-serif;
+  }
+  
+  li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+  
+
+  li a:hover {
+    background-color: #111;
+    font-family: 'Oswald', sans-serif;
+  }
+
+  
+
+  .icons{
+      float:right;
+      margin-top:5px;
+  }
+  
+
+  .nav{
+    margin-left:7px;
+    margin-top:3px;
+    font-size:20px;
+  }
