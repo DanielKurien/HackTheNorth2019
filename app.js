@@ -21,6 +21,7 @@ app.use(require("express-session")({ //require inline exp session
 // code to set up passport to work in our app -> THESE TWO METHODS/LINES ARE REQUIRED EVERY TIME
 app.use(passport.initialize());
 app.use(passport.session());
+app.use('/public', express.static(__dirname + '/public'));
 
 //plugins from passportlocalmongoose in user.js file
 passport.use(new LocalStrategy(User.authenticate())); //creating new local strategy with user authenticate from passport-local-mongoose
@@ -31,13 +32,15 @@ passport.deserializeUser(User.deserializeUser()); //responsible for reading sess
 //ROUTES
 //=======================================================================================================
 
+var express = require('express'),
+    path = require('path')
 
-app.get("/", function(req, res){
-    res.render("home");
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname+'/public/views/index.html'));
 });
 
 app.get("/secret", isLoggedIn, function(req, res){
-    res.render("secret");
+    res.sendFile(path.join(__dirname+'/public/views/secret.html'));
 });
 
 //=======================================================================================================
@@ -46,7 +49,20 @@ app.get("/secret", isLoggedIn, function(req, res){
 
 //show sign up form
 app.get("/register", function(req, res){
-    res.render("register");
+    res.sendFile(path.join(__dirname+'/public/views/register.html'));
+});
+
+app.get("/js/api.js", function(req, res){
+    res.sendFile(path.join(__dirname+'/public/api.js'));
+});
+app.get("/js/welcome.js", function(req, res){
+    res.sendFile(path.join(__dirname+'/public/welcome.js'));
+});
+app.get("/js/app.js", function(req, res){
+    res.sendFile(path.join(__dirname+'/public/app.js'));
+});
+app.get("/js/app2.js", function(req, res){
+    res.sendFile(path.join(__dirname+'/public/app2.js'));
 });
 
 //handling user sign up
@@ -64,18 +80,29 @@ app.post("/register", function(req, res){
     });
 });
 
+//New condition handling
+app.post("/newCondition", function(req, res){
+    res.redirect('/secret');
+})
+
 // LOGIN ROUTES
 
 //render login form
 app.get("/login", function(req, res){
-    res.render("login");
+    res.sendFile(path.join(__dirname+'/public/views/login.html'));
 });
+
+//render New Condition form
+app.get("/newCondition", function(req, res){
+    res.sendFile(path.join(__dirname+'/public/views/newCondition.html'));
+})
 
 //login logic
 app.post("/login", passport.authenticate("local", { //used inside app.post as (middleware - code that runs before final callback)
         successRedirect: "/secret",
         failureRedirect: "/login",
     }), function(req, res){
+        serverInterface.loggedIn("");
 });
 
 app.get("/logout", function(req, res){

@@ -1,4 +1,4 @@
-customerID = '21821034-8ad8-4c00-bfd4-b74e694066ba';
+var customerID = '21821034-8ad8-4c00-bfd4-b74e694066ba';
 serverInterface.loggedIn(customerID, main);
 
 const updateInterval = 1000;
@@ -10,12 +10,24 @@ var condition = {
     saveValue : ''
 }
 
+var allConditions = [];
+
 async function main() {
+    console.log('init')
     setInterval(function () {
         if(!serverInterface.running) {
+            console.log("123")
             serverInterface.getTransactions(customerID, mostRecentTransaction);
         }
     }, updateInterval)
+}
+
+function saveNewCondition(data) {
+    allConditions.push(Object.assign({}, condition));
+    let x = allConditions[allConditions.length-1];
+    x.tag = data.tag;
+    x.triggerValue = data.triggerValue;
+    x.saveValue = data.saveValue;
 }
 
 function mostRecentTransaction() {
@@ -32,8 +44,6 @@ function mostRecentTransaction() {
     if(transaction.type == "CustomerToCustomerTransaction") {
         return;
     }
-
-    //Pull conditions from the firebase database
 
     var placeholder = [Object.assign({}, condition)];
     placeholder[0].tag = ["Food and Dining"];

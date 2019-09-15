@@ -23,14 +23,13 @@ const serverInterface = {
     lastData : 0,
     customerTest() {
         var myRequest = new Request('https://api.td-davinci.com/api/branches', getData);
-        myRequest = new Request('https://api.td-davinci.com/api/customers/4806f34e-93a6-4e2f-9e41-5ee9f0d24f14/accounts', getData);
+        myRequest = new Request('https://api.td-davinci.com/api/customers/4806f34e-93a6-4e2f-9e41-5ee9f0d24f14', getData);
         
         fetch(myRequest)
         .then(response => response.json())
         .then(json => {
-            // the json variable contains the response from the API
-            console.log(json);
-        });
+            return json.result.givenName;
+        })
     },
     loggedIn(customerID = '', callback = {}) {
         let request = new Request('https://api.td-davinci.com/api/customers/' + customerID + '/accounts', getData);
@@ -59,7 +58,7 @@ const serverInterface = {
             else{
                 if(this.lastData.result.length != json.result.length) {
                     this.lastData = json;
-                    callback()
+                    callback();
                 }
                 else{
                     this.running = false;
