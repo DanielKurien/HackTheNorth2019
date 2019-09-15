@@ -73,21 +73,28 @@ function mostRecentTransaction() {
     }
 
     console.log(transaction)
+    var saving = 0;
 
     allConditions.forEach(function(element) {
         if(element.triggerValue == 0 && transaction.categoryTags.equals(element.tag)) {
             serverInterface.autoSave(element.saveValue);
             console.log("SAVED 1 " + element.saveValue);
+            saving+=parseInt(element.saveValue, 10);
         }
         else if(Math.abs(transaction.currencyAmount) > element.triggerValue && element.tag[0] == '') {
             serverInterface.autoSave(element.saveValue);
             console.log("SAVED 2 " + element.saveValue);
+            saving+=parseInt(element.saveValue, 10);
         }
         else if(transaction.categoryTags.equals(element.tag) && Math.abs(transaction.currencyAmount) > element.triggerValue) {
             serverInterface.autoSave(element.saveValue);
             console.log("SAVED 3 " + element.saveValue);
+            saving+=parseInt(element.saveValue, 10);
         }
     })
+    if(saving > 0) {
+        alert("You just saved $" + saving + " with AutoSave!");
+    }
 }
 
 function generateConditionTableHead(data) {
@@ -113,11 +120,21 @@ function generateTable(table, data) {
         cell.appendChild(text);
         //triggerValue
         cell = row.insertCell();
-        text = document.createTextNode(element.triggerValue);
+        if(element.triggerValue / Math.round(element.triggerValue) != 1) {
+            text = document.createTextNode('$' + element.triggerValue);
+        }
+        else {
+            text = document.createTextNode('$' + element.triggerValue + '.00');
+        }
         cell.appendChild(text);
         //saveValue
         cell = row.insertCell();
-        text = document.createTextNode(element.saveValue);
+        if(element.saveValue / Math.round(element.saveValue) != 1) {
+            text = document.createTextNode('$' + element.saveValue);
+        }
+        else {
+            text = document.createTextNode('$' + element.saveValue + '.00');
+        }
         cell.appendChild(text);
     }
 }
