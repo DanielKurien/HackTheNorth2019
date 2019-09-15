@@ -21,14 +21,14 @@ var first = true;
 const serverInterface = {
     running : false,
     lastData : 0,
-    customerTest() {
-        var myRequest = new Request('https://api.td-davinci.com/api/branches', getData);
-        myRequest = new Request('https://api.td-davinci.com/api/customers/4806f34e-93a6-4e2f-9e41-5ee9f0d24f14', getData);
+    customerTest(callback) {
+        var myRequest = new Request('https://api.td-davinci.com/api/customers/d7b518ac-b11d-4e18-9ace-6c24342a7c6b', getData);
         
         fetch(myRequest)
         .then(response => response.json())
         .then(json => {
-            return json.result.givenName;
+            console.log(json.result.givenName)
+            callback(json.result.givenName)
         })
     },
     loggedIn(customerID = '', callback = {}) {

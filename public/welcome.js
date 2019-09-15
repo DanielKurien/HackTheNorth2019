@@ -1,3 +1,6 @@
-console.log("10000")
-document.getElementById
-document.getElementById('welcome').innerHTML = 'Welcome ' + serverInterface.customerTest();
+function setupWelcome() {
+    serverInterface.customerTest(welcomeCallback);
+}
+function welcomeCallback(name) {
+    document.getElementById('welcome').innerHTML = 'Welcome ' + name;
+}
